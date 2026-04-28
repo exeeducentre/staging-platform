@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan & Template Database Soal - EXE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { pink: '#d81b60', dark: '#1f2022' } } } }
+        };
+    </script>
+    <style>
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        th, td { border: 1px solid #cbd5e1; padding: 12px; vertical-align: top; }
+        th { background-color: #f1f5f9; font-weight: 700; color: #334155; white-space: nowrap; }
+        td { color: #475569; min-width: 150px; }
+        /* Trick agar saat di copy paste ke Google Sheets, <br> berubah menjadi satu cell dengan Enter */
+        td br { mso-data-placement: same-cell; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 p-8">
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- HEADER -->
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+            <h1 class="text-3xl font-bold text-brand-dark mb-2"><i class="fas fa-database text-brand-pink mr-3"></i>Panduan Input Database Soal</h1>
+            <p class="text-slate-500">Halaman ini adalah panduan resmi cara menulis format soal (Teks, Matematika, Kunci) untuk diinput ke Google Sheets EXE Education Centre.</p>
+        </div>
+
+        <!-- ATURAN PENULISAN -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Card Aturan Teks & Rumus -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-pen-nib text-blue-500 mr-2"></i>1. Aturan Teks & Rumus</h2>
+                <ul class="space-y-3 text-sm text-slate-600">
+                    <li><span class="font-bold text-slate-800">Paragraf Baru (Enter):</span> Gunakan kombinasi tombol <kbd class="bg-slate-100 px-2 py-1 rounded border">Alt + Enter</kbd> (Windows) atau <kbd class="bg-slate-100 px-2 py-1 rounded border">Ctrl + Option + Enter</kbd> (Mac) langsung di dalam sel Google Sheets.</li>
+                    <li><span class="font-bold text-slate-800">Teks Tebal (Bold):</span> Apit kata dengan bintang dua. Contoh: <code>**Kata Penting**</code>.</li>
+                    <li><span class="font-bold text-slate-800">Teks Miring (Italic):</span> Apit kata dengan bintang satu. Contoh: <code>*Penjelasan*</code>.</li>
+                    <li><span class="font-bold text-slate-800">Rumus Matematika Inline:</span> Apit rumus menyatu dengan teks menggunakan dolar satu. Contoh: <code>Nilai $x=5$</code>.</li>
+                    <li><span class="font-bold text-slate-800">Rumus Matematika Blok:</span> Apit rumus agar ke tengah dan besar menggunakan dolar dua. Contoh: <code>$$ \frac{1}{2} $$</code>.</li>
+                    <li><span class="font-bold text-slate-800">Menyisipkan Gambar:</span> Gunakan tag khusus dengan menyertakan URL (link) gambar langsung. Contoh: <code>Perhatikan gambar berikut [GAMBAR: https://images2.imgbox.com/06/af/0IcZ2EUx_o.png]</code>.</li>
+                </ul>
+            </div>
+
+            <!-- Card Aturan Kunci Jawaban -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-key text-yellow-500 mr-2"></i>2. Aturan Kunci Jawaban (Tanpa Spasi)</h2>
+                <ul class="space-y-3 text-sm text-slate-600">
+                    <li><span class="font-bold text-slate-800">Tipe 1 (PG Biasa):</span> Tulis langsung huruf besarnya. Contoh: <code class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">C</code></li>
+                    <li><span class="font-bold text-slate-800">Tipe 2 (PG Kompleks Checkbox):</span> Tulis opsi yang benar dipisah koma <b>TANPA SPASI</b>. Contoh: <code class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">A,B,D</code></li>
+                    <li><span class="font-bold text-slate-800">Tipe 3 (Benar/Salah Tabel):</span> Tulis urutan B dan S dipisah koma <b>TANPA SPASI</b>. Contoh: <code class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">B,S,B</code></li>
+                    <li><span class="font-bold text-slate-800">Tipe 4 (Kuantitas P & Q):</span> Kunci berkisar A, B, C, atau D. Sama seperti Tipe 1.</li>
+                    <li><span class="font-bold text-slate-800">Tipe 5 (Kecukupan Data):</span> Kunci berkisar A, B, C, D, atau E. Sama seperti Tipe 1.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TABEL RAW DATA (SIAP COPY PASTE) -->
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xl font-bold"><i class="fas fa-table text-emerald-500 mr-2"></i>Tabel Raw Data (Contoh Soal TKA)</h2>
+                    <p class="text-sm text-slate-500 mt-1">Klik tombol Copy di sebelah kanan, lalu Paste langsung ke baris kosong di Google Sheets kamu.</p>
+                </div>
+                <button id="copyBtn" onclick="copyTable()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-sm transition-all flex items-center shrink-0">
+                    <i class="fas fa-copy mr-2"></i> Copy Tabel
+                </button>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-200">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>No_Soal</th>
+                            <th>Mapel</th>
+                            <th>TO_Ke</th>
+                            <th>Kategori</th>
+                            <th>Kelas</th>
+                            <th>Tipe_Soal</th>
+                            <th>Topik</th>
+                            <th>Stimulus</th>
+                            <th>Pertanyaan</th>
+                            <th>Opsi_A</th>
+                            <th>Opsi_B</th>
+                            <th>Opsi_C</th>
+                            <th>Opsi_D</th>
+                            <th>Opsi_E</th>
+                            <th>Kunci</th>
+                            <th>Pembahasan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- SOAL 1 -->
+                        <tr>
+                            <td>1</td>
+                            <td>Matematika Wajib</td>
+                            <td>1</td>
+                            <td>TKA</td>
+                            <td>12</td>
+                            <td>1</td>
+                            <td>Bilangan Real</td>
+                            <td>-</td>
+                            <td>Bentuk sederhana dari operasi bilangan berpangkat $$ \frac{2^4 \times 9^{-2} \times 5^{-3}}{8 \times 3^{-5} \times 125^{-1}} $$ adalah...</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>6</td>
+                            <td>12</td>
+                            <td>18</td>
+                            <td>C</td>
+                            <td>**Jawaban: C. 6**<br>*Penjelasan Sangat Detail:*<br>Untuk mengerjakan soal bentuk pangkat, aturan utamanya adalah **menyamakan bilangan pokok (basis)**. Di soal ini, kita punya angka besar seperti 9, 8, dan 125. Kita harus memecahnya menjadi bilangan prima terkecil:<br>- 9 itu sama dengan $3 \times 3$, atau bisa ditulis $3^2$.<br>- 8 itu sama dengan $2 \times 2 \times 2$, atau bisa ditulis $2^3$.<br>- 125 itu sama dengan $5 \times 5 \times 5$, atau bisa ditulis $5^3$.<br>Sekarang, mari kita ubah angka-angka di soal dengan bentuk pangkat di atas:<br>$$ \frac{2^4 \times (3^2)^{-2} \times 5^{-3}}{(2^3) \times 3^{-5} \times (5^3)^{-1}} $$<br>Ingat sifat dasar pangkat: **Jika bilangan berpangkat dipangkatkan lagi, maka pangkatnya dikalikan** $(a^m)^n = a^{m \times n}$.<br>- $(3^2)^{-2}$ pangkatnya dikali ($2 \times -2$), sehingga menjadi $3^{-4}$<br>- $(5^3)^{-1}$ pangkatnya dikali ($3 \times -1$), sehingga menjadi $5^{-3}$<br>Mari kita tulis ulang soalnya agar lebih rapi:<br>$$ \frac{2^4 \times 3^{-4} \times 5^{-3}}{2^3 \times 3^{-5} \times 5^{-3}} $$<br>Selanjutnya, kita selesaikan pembagiannya. Ingat sifat pembagian pangkat: **Jika bilangan pokoknya sama, pangkat yang atas dikurangi pangkat yang bawah** $\left(\frac{a^m}{a^n} = a^{m-n}\right)$.<br>- Untuk basis 2: $\frac{2^4}{2^3} \implies$ pangkatnya $4 - 3 = 1$. Hasilnya $2^1 = 2$.<br>- Untuk basis 3: $\frac{3^{-4}}{3^{-5}} \implies$ pangkatnya $-4 - (-5) = -4 + 5 = 1$. Hasilnya $3^1 = 3$.<br>- Untuk basis 5: $\frac{5^{-3}}{5^{-3}} \implies$ pangkatnya $-3 - (-3) = -3 + 3 = 0$. Hasilnya $5^0$. (Ingat, angka berapapun jika dipangkatkan 0 hasilnya adalah 1).<br>Terakhir, kita kalikan semua hasil tersebut:<br>$= 2 \times 3 \times 1 = 6$.</td>
+                        </tr>
+
+                        <!-- SOAL 2 -->
+                        <tr>
+                            <td>2</td>
+                            <td>Matematika Wajib</td>
+                            <td>1</td>
+                            <td>TKA</td>
+                            <td>12</td>
+                            <td>5</td>
+                            <td>Bilangan Real</td>
+                            <td>-</td>
+                            <td>Diketahui $x$ dan $y$ adalah bilangan asli. Apakah hasil dari $x + y$ bernilai ganjil?</td>
+                            <td>Hasil dari $x \times y$ adalah bilangan genap.</td>
+                            <td>Hasil dari $x^2 + y^2$ adalah bilangan ganjil.</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>B</td>
+                            <td>**Jawaban: B. Pernyataan (2) SAJA cukup...**<br>*Penjelasan Sangat Detail:*<br>Soal tipe ini BUKAN meminta kita mencari berapa nilai $x$ dan $y$. Soal ini hanya meminta kepastian: **"Apakah bisa dipastikan $x+y$ itu ganjil?"** Jawabannya harus "Ya, pasti ganjil" atau "Tidak, pasti genap". Jika masih ada 2 kemungkinan (bisa ganjil bisa genap), berarti informasinya belum cukup.<br>Ingat aturan penjumlahan bilangan (Ganjil/Genap):<br>- Genap + Genap = Genap (Contoh: $2 + 4 = 6$)<br>- Ganjil + Ganjil = Genap (Contoh: $3 + 5 = 8$)<br>- **Genap + Ganjil = Ganjil** (Contoh: $2 + 3 = 5$) $\leftarrow$ *Ini syarat agar $x+y$ bernilai ganjil!*<br><br>**Mari kita cek Pernyataan (1) saja:** "$x \times y$ adalah genap".<br>Kapan perkalian menghasilkan bilangan genap? Jawabannya: Asalkan ada minimal satu bilangan genap.<br>- Kemungkinan 1: $x$ genap (misal 2) dan $y$ genap (misal 4). Perkaliannya $2 \times 4 = 8$ (genap). Tapi penjumlahannya $2 + 4 = 6$ **(hasilnya Genap)**.<br>- Kemungkinan 2: $x$ genap (misal 2) dan $y$ ganjil (misal 3). Perkaliannya $2 \times 3 = 6$ (genap). Tapi penjumlahannya $2 + 3 = 5$ **(hasilnya Ganjil)**.<br>Karena penjumlahannya *bisa genap dan bisa ganjil*, maka pernyataan (1) SAJA belum bisa memberikan kepastian mutlak. (Pernyataan 1 tidak cukup).<br><br>**Mari kita cek Pernyataan (2) saja:** "$x^2 + y^2$ adalah ganjil".<br>Ingat sifat kuadrat: Paritas (sifat ganjil/genap) suatu bilangan TIDAK BERUBAH jika dikuadratkan. Bilangan genap jika dikuadratkan tetap genap ($2^2 = 4$). Bilangan ganjil jika dikuadratkan tetap ganjil ($3^2 = 9$).<br>Agar hasil tambah dari dua bilangan ($x^2 + y^2$) bernilai ganjil, wajib hukumnya salah satunya Genap dan satunya lagi Ganjil (seperti aturan yang kita bahas di awal).<br>Karena $x^2$ dan $y^2$ mewakili sifat $x$ dan $y$, maka bisa dipastikan salah satu dari $x$ atau $y$ adalah genap, dan satunya lagi ganjil.<br>Karena kita sudah pasti tahu yang satu genap dan satu ganjil, maka jika keduanya dijumlahkan ($x + y$), hasilnya **SUDAH PASTI GANJIL**. Pernyataan (2) memberikan kepastian 100%. (Pernyataan 2 cukup).</td>
+                        </tr>
+
+                        <!-- SOAL 3 -->
+                        <tr>
+                            <td>3</td>
+                            <td>Matematika Wajib</td>
+                            <td>1</td>
+                            <td>TKA</td>
+                            <td>12</td>
+                            <td>2</td>
+                            <td>Himpunan Bilangan</td>
+                            <td>-</td>
+                            <td>Diberikan tiga buah himpunan bilangan sebagai berikut:<br><br>$$ A = \{x \mid x \text{ adalah faktor dari } 10, \, x \in \text{Bilangan Asli}\} $$<br>$$ B = \{x \mid x < 10, \, x \in \text{Bilangan Prima}\} $$<br>$$ C = \{x \mid x \text{ adalah bilangan genap}, \, x < 10, \, x \in \text{Bilangan Cacah}\} $$<br><br>Berdasarkan himpunan-himpunan tersebut, manakah dari pernyataan di bawah ini yang bernilai BENAR?</td>
+                            <td>$A \cap B = \{2, 5\}$</td>
+                            <td>$B \cup C = \{0, 2, 3, 4, 5, 6, 7, 8\}$</td>
+                            <td>$A \cap C = \{2, 10\}$</td>
+                            <td>$(A \cup B) \cap C = \{2\}$</td>
+                            <td>$B \cap C = \emptyset$</td>
+                            <td>A,B,D</td>
+                            <td>**Jawaban: A, B, D**<br>*Penjelasan Sangat Detail:*<br>Langkah pertama yang harus dilakukan adalah menerjemahkan kata-kata menjadi kumpulan angka (mendaftar anggotanya). Mari kita bedah satu per satu:<br>- **Himpunan A (Faktor dari 10):** Faktor adalah angka yang bisa membagi habis 10. Angka berapa saja yang bisa membagi 10? Yaitu 1, 2, 5, dan 10. Maka $A = \{1, 2, 5, 10\}$.<br>- **Himpunan B (Bilangan Prima < 10):** Bilangan prima adalah bilangan yang lebih besar dari 1 dan hanya bisa dibagi oleh 1 dan dirinya sendiri. Bilangan prima di bawah 10 adalah 2, 3, 5, 7. Maka $B = \{2, 3, 5, 7\}$.<br>- **Himpunan C (Bilangan Genap, Cacah, < 10):** Bilangan cacah dimulai dari 0. Bilangan genap adalah kelipatan 2. Maka angka genap yang kurang dari 10 dan dimulai dari cacah adalah 0, 2, 4, 6, 8. Maka $C = \{0, 2, 4, 6, 8\}$.<br>Mengenal simbol himpunan:<br>- Simbol $\cap$ dibaca **Irisan**. Artinya kita mencari angka yang **sama/kembar** di kedua himpunan.<br>- Simbol $\cup$ dibaca **Gabungan**. Artinya kita **mencampur** semua isi himpunan. Jika ada angka yang sama, cukup ditulis satu kali saja.<br><br>Mari kita uji semua opsi:<br>- **Opsi A:** $A \cap B$. Angka yang ada di $A$ DAN juga ada di $B$ adalah angka 2 dan 5. Jadi, $A \cap B = \{2, 5\}$. (**Pernyataan A Benar**)<br>- **Opsi B:** $B \cup C$. Gabungkan semua isi B dan C dan urutkan dari terkecil. Hasilnya $\{0, 2, 3, 4, 5, 6, 7, 8\}$. (**Pernyataan B Benar**)<br>- **Opsi C:** $A \cap C$. Angka yang kembar di A dan C hanya angka 2 (10 tidak masuk di C karena syarat C adalah $<10$). Harusnya hasilnya $\{2\}$, bukan $\{2, 10\}$. (**Pernyataan C Salah**)<br>- **Opsi D:** $(A \cup B) \cap C$. Kerjakan yang di dalam kurung dulu. $A \cup B$ adalah gabungan A dan B, yaitu $\{1, 2, 3, 5, 7, 10\}$. Kemudian, cari irisan hasil ini dengan himpunan C. Angka yang kembar dari $\{1, 2, 3, 5, 7, 10\}$ dengan $\{0, 2, 4, 6, 8\}$ hanyalah angka 2. (**Pernyataan D Benar**)<br>- **Opsi E:** $B \cap C = \emptyset$ (himpunan kosong). Artinya tidak ada angka yang sama. Padahal di B ada angka 2, di C juga ada angka 2. Jadi irisannya tidak kosong. (**Pernyataan E Salah**)</td>
+                        </tr>
+
+                        <!-- SOAL 4 -->
+                        <tr>
+                            <td>4</td>
+                            <td>Matematika Wajib</td>
+                            <td>1</td>
+                            <td>TKA</td>
+                            <td>12</td>
+                            <td>3</td>
+                            <td>Operasi Hitung</td>
+                            <td>Sebuah operasi biner $\star$ didefinisikan sebagai $$ a \star b = \frac{a^3 - b^3}{a - b} - ab $$ untuk setiap bilangan real $a$ dan $b$ dengan syarat $a \neq b$.</td>
+                            <td>Tentukan **Benar** atau **Salah** pada setiap pernyataan berikut!</td>
+                            <td>Hasil dari $4 \star 3$ adalah 25.</td>
+                            <td>Operasi $\star$ bersifat komutatif, yaitu $x \star y = y \star x$ untuk setiap $x \neq y$.</td>
+                            <td>Jika $p \star 2 = 20$ dengan $p$ adalah bilangan real positif, maka nilai $p$ merupakan bilangan irasional.</td>
+                            <td>Benar</td>
+                            <td>Salah</td>
+                            <td>B,B,S</td>
+                            <td>**Kunci: 1. Benar, 2. Benar, 3. Salah.**<br>*Penjelasan Sangat Detail:*<br>Banyak siswa yang takut melihat simbol aneh seperti $\star$. Jangan takut! Simbol itu hanya "mesin hitung" atau "aturan main" buatan si pembuat soal. Jika ada $a \star b$, artinya masukkan angka pertama ke huruf $a$, dan angka kedua ke huruf $b$ pada rumus di sebelahnya.<br>Rumusnya adalah: $$ a \star b = \frac{a^3 - b^3}{a - b} - ab $$<br>Rumus ini terlihat rumit, apalagi ada pangkat 3. Di matematika, jika rumus bisa disederhanakan, Sederhanakanlah dulu! Ingat rumus pemfaktoran aljabar ini: $(a^3 - b^3) = (a - b)(a^2 + ab + b^2)$. Mari kita ubah bagian atas pecahannya:<br>$$ a \star b = \frac{(a - b)(a^2 + ab + b^2)}{(a - b)} - ab $$<br>Karena di atas dan di bawah sama-sama punya $(a - b)$, kita bisa mencoretnya! (Ini boleh dilakukan karena ada syarat di soal bahwa $a \neq b$). Rumusnya menjadi jauh lebih simpel:<br>$$ a \star b = (a^2 + ab + b^2) - ab $$<br>$$ a \star b = a^2 + b^2 $$<br>Luar biasa! Ternyata operasi $\star$ itu **hanya menyuruh kita menguadratkan kedua angka, lalu menjumlahkannya.** Sekarang mari kita uji pernyataannya.<br><br>- **Pernyataan 1:** Hasil $4 \star 3$. Menggunakan rumus baru kita, $4^2 + 3^2 = 16 + 9 = 25$. (**Benar**)<br>- **Pernyataan 2:** Sifat "komutatif" artinya bisa ditukar posisinya namun hasilnya sama (seperti $2+3 = 3+2$). Apakah $x \star y = y \star x$? Menurut rumus kita: $x \star y = x^2 + y^2$. Dan $y \star x = y^2 + x^2$. Karena penjumlahan biasa bebas ditukar urutannya, maka keduanya sama. (**Benar**)<br>- **Pernyataan 3:** Jika $p \star 2 = 20$. Mari kita masukkan ke rumus: $p^2 + 2^2 = 20$.<br>$p^2 + 4 = 20$<br>$p^2 = 20 - 4$<br>$p^2 = 16$.<br>Angka berapa yang jika dikuadratkan hasilnya 16? Jawabannya bisa $p = 4$ atau $p = -4$. Soal mengatakan $p$ adalah "bilangan real positif", maka kita pilih $p = 4$. Pertanyaannya, apakah angka 4 itu bilangan irasional? Bukan! Bilangan irasional itu contohnya $\sqrt{2}, \sqrt{3}, \pi$. Angka 4 adalah bilangan bulat/rasional. Jadi pernyataan ini keliru. (**Salah**)</td>
+                        </tr>
+
+                        <!-- SOAL 5 -->
+                        <tr>
+                            <td>5</td>
+                            <td>Matematika Wajib</td>
+                            <td>1</td>
+                            <td>TKA</td>
+                            <td>12</td>
+                            <td>1</td>
+                            <td>Bilangan Real</td>
+                            <td>-</td>
+                            <td>Diketahui nilai dari $x = \frac{\sqrt{5} + \sqrt{3}}{\sqrt{5} - \sqrt{3}}$ dan $y = \frac{\sqrt{5} - \sqrt{3}}{\sqrt{5} + \sqrt{3}}$. Nilai dari ekspresi aljabar $x^2 + xy + y^2$ adalah...</td>
+                            <td>61</td>
+                            <td>62</td>
+                            <td>63</td>
+                            <td>64</td>
+                            <td>65</td>
+                            <td>C</td>
+                            <td>**Jawaban: C. 63**<br>*Penjelasan Sangat Detail:*<br>Melihat akar di bagian bawah pecahan pasti membuat tidak nyaman. Langkah pertama yang selalu dilakukan di matematika adalah **"Merasionalkan Penyebut"** (menghilangkan akar di bawah). Caranya adalah mengalikan pecahan tersebut dengan "akar sekawannya". Akar sekawan adalah kebalikan tanda dari penyebut. Jika penyebutnya $(-)$, sekawannya $(+)$.<br><br>**Langkah 1: Rapikan nilai $x$**<br>Penyebut $x$ adalah $\sqrt{5} - \sqrt{3}$, maka kita kalikan atas dan bawah dengan $\sqrt{5} + \sqrt{3}$.<br>$$ x = \frac{\sqrt{5} + \sqrt{3}}{\sqrt{5} - \sqrt{3}} \times \frac{\sqrt{5} + \sqrt{3}}{\sqrt{5} + \sqrt{3}} $$<br>Gunakan aturan perkalian pelangi / distributif untuk bagian atas: $(\sqrt{5} \times \sqrt{5}) + (\sqrt{5} \times \sqrt{3}) + (\sqrt{3} \times \sqrt{5}) + (\sqrt{3} \times \sqrt{3}) = 5 + \sqrt{15} + \sqrt{15} + 3 = 8 + 2\sqrt{15}$.<br>Untuk bagian bawah, gunakan jalan pintas selisih kuadrat $(a-b)(a+b) = a^2 - b^2$:<br>$(\sqrt{5})^2 - (\sqrt{3})^2 = 5 - 3 = 2$.<br>$$ x = \frac{8 + 2\sqrt{15}}{2} $$<br>Karena 8 dan 2 sama-sama bisa dibagi 2, kita sederhanakan: $x = 4 + \sqrt{15}$. Jauh lebih enak dilihat!<br><br>**Langkah 2: Rapikan nilai $y$**<br>Lakukan hal yang sama untuk $y$. Penyebutnya $\sqrt{5} + \sqrt{3}$, kalikan dengan $\sqrt{5} - \sqrt{3}$.<br>$$ y = \frac{\sqrt{5} - \sqrt{3}}{\sqrt{5} + \sqrt{3}} \times \frac{\sqrt{5} - \sqrt{3}}{\sqrt{5} - \sqrt{3}} $$<br>Atas: $(\sqrt{5} - \sqrt{3})(\sqrt{5} - \sqrt{3}) = 5 - 2\sqrt{15} + 3 = 8 - 2\sqrt{15}$.<br>Bawah: $5 - 3 = 2$.<br>$$ y = \frac{8 - 2\sqrt{15}}{2} = 4 - \sqrt{15} $$<br><br>**Langkah 3: Jawab Pertanyaannya**<br>Soal meminta kita menghitung nilai dari $x^2 + xy + y^2$.<br>Meskipun kita sudah punya nilai $x$ dan $y$, menguadratkannya satu per satu akan memakan waktu dan berisiko salah hitung. Para ahli matematika menggunakan trik manipulasi aljabar!<br>Ingat rumus ini: $(x + y)^2 = x^2 + 2xy + y^2$.<br>Bentuk yang ditanya di soal adalah $x^2 + 1xy + y^2$. Agar sama, kita bisa mengubah pertanyaan soal menjadi:<br>$$ (x^2 + 2xy + y^2) - xy $$<br>$$ \text{yang sama dengan: } (x + y)^2 - xy $$<br>Trik ini sangat menghemat waktu, karena kita hanya perlu mencari 2 hal: hasil tambah ($x+y$) dan hasil kali ($x \times y$).<br>- Hasil tambah: $x + y = (4 + \sqrt{15}) + (4 - \sqrt{15}) = 4 + 4 + \sqrt{15} - \sqrt{15} = 8$.<br>- Hasil kali: $x \times y = (4 + \sqrt{15})(4 - \sqrt{15})$. Gunakan trik selisih kuadrat lagi ($a^2 - b^2$). Hasilnya $4^2 - (\sqrt{15})^2 = 16 - 15 = 1$.<br>Sekarang, masukkan ke dalam trik aljabar kita:<br>$$ (x + y)^2 - xy = (8)^2 - 1 $$<br>$$ = 64 - 1 = 63 $$<br>Selesai!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function copyTable() {
+            const table = document.getElementById("dataTable");
+            const range = document.createRange();
+            range.selectNode(table);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                document.execCommand('copy');
+                
+                // Animasi tombol saat berhasil dicopy
+                const btn = document.getElementById("copyBtn");
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i>Berhasil Copy!';
+                btn.classList.add('bg-green-600');
+                btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+                
+                // Balikin ke warna awal setelah 2 detik
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-600');
+                    btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+                }, 2000);
+            } catch (err) {
+                alert('Gagal meng-copy tabel. Silakan block manual.');
+            }
+            
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+</body>
+</html>
