@@ -311,10 +311,12 @@
 
     <script>
         /* --- KONFIGURASI API --- */
-        // Sesuai permintaan, saya kembalikan API_URL ke URL STAGING (V1)
         const API_URL = "https://script.google.com/macros/s/AKfycbzOFMW35eZtt1ToZA12r6h7NwVQYtjoNXz-1EOXd5NT4E7s53AS6P7VbhuH3LQuuX6S/exec";
 
         const $ = id => document.getElementById(id);
+        
+        /* HELPER UNTUK MENGATASI BUG 0 FALSY */
+        const isValidOpsi = (val) => val !== undefined && val !== null && String(val).trim() !== "" && String(val).trim() !== "-";
 
         /* ============================================== */
         /* SECURITY DASAR (Menonaktifkan Klik Kanan)      */
@@ -482,7 +484,7 @@
         /* FORMATTING UTILITIES & JAM REALTIME            */
         /* ============================================== */
         function parseInlineImages(text) {
-            if (!text) return "";
+            if (!isValidOpsi(text)) return "";
             let parsed = String(text);
             parsed = parsed.replace(/\[GAMBAR:\s*(https?:\/\/[^\s\]]+)\]/gi, "<br><img src='$1' class='max-w-md w-full mx-auto my-4 rounded-xl border border-slate-200 shadow-sm'><br>");
             parsed = parsed.replace(/\*\*(.*?)\*\*/g, "<strong class='font-bold text-slate-800'>$1</strong>");
@@ -541,7 +543,7 @@
 
         /* PEMBERSIH JAM ANEH DARI GOOGLE SHEETS (Tetap Ada Untuk Teks Display) */
         function formatWaktuBersih(timeStr) {
-            if (!timeStr || timeStr === "-") return "-";
+            if (!isValidOpsi(timeStr)) return "-";
             if (String(timeStr).includes("T") && String(timeStr).includes("Z")) {
                 try {
                     const d = new Date(timeStr);
@@ -553,7 +555,7 @@
 
         /* HELPER 3 STATUS KELAS CERDAS (Akan Datang / Sedang Live / Selesai) */
         function getClassStatus(tglStr, jamMulaiStr, jamSelesaiStr) {
-            if (!tglStr || tglStr === "-") return "UNKNOWN";
+            if (!isValidOpsi(tglStr)) return "UNKNOWN";
             try {
                 const now = new Date();
                 const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -698,8 +700,8 @@
                     const guru = j.Nama_Guru || 'Tentor EXE';
 
                     /* Periksa Pre/Post Test */
-                    let preTestBtn = (j.Kode_PreTest && j.Kode_PreTest !== "-") ? `<button onclick="executeQuizByKode('${j.Kode_PreTest}', 'Pre-Test ${mapel}')" class="px-3 py-1.5 bg-brand-orange text-white text-xs rounded-lg font-bold shadow-sm hover:scale-105 transition">Pre-Test</button>` : '';
-                    let postTestBtn = (j.Kode_PostTest && j.Kode_PostTest !== "-") ? `<button onclick="executeQuizByKode('${j.Kode_PostTest}', 'Post-Test ${mapel}')" class="px-3 py-1.5 bg-brand-pink text-white text-xs rounded-lg font-bold shadow-sm hover:scale-105 transition">Post-Test</button>` : '';
+                    let preTestBtn = (isValidOpsi(j.Kode_PreTest)) ? `<button onclick="executeQuizByKode('${j.Kode_PreTest}', 'Pre-Test ${mapel}')" class="px-3 py-1.5 bg-brand-orange text-white text-xs rounded-lg font-bold shadow-sm hover:scale-105 transition">Pre-Test</button>` : '';
+                    let postTestBtn = (isValidOpsi(j.Kode_PostTest)) ? `<button onclick="executeQuizByKode('${j.Kode_PostTest}', 'Post-Test ${mapel}')" class="px-3 py-1.5 bg-brand-pink text-white text-xs rounded-lg font-bold shadow-sm hover:scale-105 transition">Post-Test</button>` : '';
 
                     /* Render Tombol & Label 3 Status */
                     let primaryAction = "";
@@ -710,10 +712,10 @@
                         primaryAction = `<span class="text-xs text-slate-400 font-bold bg-slate-100 px-3 py-1.5 rounded-lg text-center md:text-left"><i class="fas fa-clock mr-1"></i>Belum Mulai</span>`;
                     } else if (statusKelas === "ONGOING") {
                         badgeStatus = `<span class="text-[10px] font-bold uppercase tracking-wider text-green-600 bg-green-50 px-2 py-0.5 rounded animate-pulse">Sedang Live</span>`;
-                        primaryAction = (j.Link_Kelas && j.Link_Kelas !== "-") ? `<a href="${j.Link_Kelas}" target="_blank" class="w-full md:w-auto px-6 py-3 bg-brand-blue text-white rounded-xl text-sm font-bold hover:bg-blue-700 text-center transition-colors shadow-lg"><i class="fas fa-video mr-2"></i>Gabung Live</a>` : `<span class="text-xs text-slate-400 font-bold bg-slate-100 px-3 py-1.5 rounded-lg text-center md:text-left">Link Segera Hadir</span>`;
+                        primaryAction = (isValidOpsi(j.Link_Kelas)) ? `<a href="${j.Link_Kelas}" target="_blank" class="w-full md:w-auto px-6 py-3 bg-brand-blue text-white rounded-xl text-sm font-bold hover:bg-blue-700 text-center transition-colors shadow-lg"><i class="fas fa-video mr-2"></i>Gabung Live</a>` : `<span class="text-xs text-slate-400 font-bold bg-slate-100 px-3 py-1.5 rounded-lg text-center md:text-left">Link Segera Hadir</span>`;
                     } else if (statusKelas === "FINISHED") {
                         badgeStatus = `<span class="text-[10px] font-bold uppercase tracking-wider text-red-500 bg-red-50 px-2 py-0.5 rounded">Selesai</span>`;
-                        primaryAction = (j.Link_Rekaman && j.Link_Rekaman !== "-") ? `<a href="${j.Link_Rekaman}" target="_blank" class="w-full md:w-auto px-6 py-3 bg-slate-700 text-white rounded-xl text-sm font-bold hover:bg-slate-900 text-center transition-colors shadow-lg"><i class="fas fa-play-circle mr-2"></i>Tonton Rekaman</a>` : `<span class="text-xs text-slate-400 font-bold bg-slate-100 px-3 py-1.5 rounded-lg text-center md:text-left">Kelas Selesai (Rekaman OTW)</span>`;
+                        primaryAction = (isValidOpsi(j.Link_Rekaman)) ? `<a href="${j.Link_Rekaman}" target="_blank" class="w-full md:w-auto px-6 py-3 bg-slate-700 text-white rounded-xl text-sm font-bold hover:bg-slate-900 text-center transition-colors shadow-lg"><i class="fas fa-play-circle mr-2"></i>Tonton Rekaman</a>` : `<span class="text-xs text-slate-400 font-bold bg-slate-100 px-3 py-1.5 rounded-lg text-center md:text-left">Kelas Selesai (Rekaman OTW)</span>`;
                     } else {
                         badgeStatus = `<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded">Sesi Kelas</span>`;
                         primaryAction = `<span class="text-xs text-slate-400 font-bold bg-slate-100 px-3 py-1.5 rounded-lg text-center md:text-left">...</span>`;
@@ -1026,22 +1028,28 @@
                 const no = s.No_Soal || (idx + 1);
                 const type = Number(s.Tipe_Soal) || 1;
 
-                let stim = s.Stimulus ? String(s.Stimulus) : "";
+                let stim = isValidOpsi(s.Stimulus) ? String(s.Stimulus) : "";
                 stim = stim.includes('[GAMBAR:') ? parseInlineImages(stim) : (stim.trim().startsWith('http') ? `<img src="${stim.trim()}" class="max-w-full h-auto rounded-xl border">` : stim);
 
                 let optHTML = "";
                 if (type === 3) {
-                    const stmts = [s.Opsi_A, s.Opsi_B, s.Opsi_C].filter(x => x && x !== "-");
-                    optHTML = `<div class="my-4 md:my-6 overflow-x-auto rounded-xl border border-slate-200"><table class="w-full text-xs md:text-sm text-left min-w-[300px]"><thead class="bg-slate-800 text-white font-bold text-[10px] uppercase"><tr><th class="p-3">Pernyataan Analisis</th><th class="p-3 text-center w-20 md:w-24">${s.Opsi_D||"Benar"}</th><th class="p-3 text-center w-20 md:w-24">${s.Opsi_E||"Salah"}</th></tr></thead><tbody class="divide-y divide-slate-100">` + stmts.map((st, i) => `<tr><td class="p-3 md:p-4 border-r bg-slate-50/30">${st}</td><td class="p-3 md:p-4 text-center"><input type="radio" name="q${no}_row${i+1}" value="B" onchange="saveTableAns(${no}, ${i+1}, 'B')" class="w-4 h-4 md:w-5 md:h-5 accent-green-600"></td><td class="p-3 md:p-4 text-center"><input type="radio" name="q${no}_row${i+1}" value="S" onchange="saveTableAns(${no}, ${i+1}, 'S')" class="w-4 h-4 md:w-5 md:h-5 accent-red-600"></td></tr>`).join("") + `</tbody></table></div>`;
+                    const stmts = [s.Opsi_A, s.Opsi_B, s.Opsi_C].filter(isValidOpsi);
+                    const labelBenar = isValidOpsi(s.Opsi_D) ? s.Opsi_D : "Benar";
+                    const labelSalah = isValidOpsi(s.Opsi_E) ? s.Opsi_E : "Salah";
+
+                    optHTML = `<div class="my-4 md:my-6 overflow-x-auto rounded-xl border border-slate-200"><table class="w-full text-xs md:text-sm text-left min-w-[300px]"><thead class="bg-slate-800 text-white font-bold text-[10px] uppercase"><tr><th class="p-3">Pernyataan Analisis</th><th class="p-3 text-center w-20 md:w-24">${labelBenar}</th><th class="p-3 text-center w-20 md:w-24">${labelSalah}</th></tr></thead><tbody class="divide-y divide-slate-100">` + stmts.map((st, i) => `<tr><td class="p-3 md:p-4 border-r bg-slate-50/30">${st}</td><td class="p-3 md:p-4 text-center"><input type="radio" name="q${no}_row${i+1}" value="B" onchange="saveTableAns(${no}, ${i+1}, 'B')" class="w-4 h-4 md:w-5 md:h-5 accent-green-600"></td><td class="p-3 md:p-4 text-center"><input type="radio" name="q${no}_row${i+1}" value="S" onchange="saveTableAns(${no}, ${i+1}, 'S')" class="w-4 h-4 md:w-5 md:h-5 accent-red-600"></td></tr>`).join("") + `</tbody></table></div>`;
                 } else if (type === 4) {
-                    optHTML = `<div class="my-6 md:my-8 overflow-hidden rounded-xl md:rounded-2xl border-2 border-slate-800 shadow-lg max-w-2xl mx-auto"><table class="w-full text-center table-fixed"><thead class="bg-slate-800 text-white font-black uppercase text-[10px] md:text-xs tracking-widest"><tr><th class="p-3 md:p-4 border-r border-slate-700">Kuantitas P</th><th class="p-3 md:p-4">Kuantitas Q</th></tr></thead><tbody><tr class="divide-x-2 divide-slate-200"><td class="p-4 md:p-8 bg-white font-bold text-lg md:text-xl text-brand-pink">${s.Opsi_A}</td><td class="p-4 md:p-8 bg-white font-bold text-lg md:text-xl text-brand-pink">${s.Opsi_B}</td></tr></tbody></table></div>`;
+                    optHTML = `<div class="my-6 md:my-8 overflow-hidden rounded-xl md:rounded-2xl border-2 border-slate-800 shadow-lg max-w-2xl mx-auto"><table class="w-full text-center table-fixed"><thead class="bg-slate-800 text-white font-black uppercase text-[10px] md:text-xs tracking-widest"><tr><th class="p-3 md:p-4 border-r border-slate-700">Kuantitas P</th><th class="p-3 md:p-4">Kuantitas Q</th></tr></thead><tbody><tr class="divide-x-2 divide-slate-200"><td class="p-4 md:p-8 bg-white font-bold text-lg md:text-xl text-brand-pink">${isValidOpsi(s.Opsi_A) ? s.Opsi_A : ""}</td><td class="p-4 md:p-8 bg-white font-bold text-lg md:text-xl text-brand-pink">${isValidOpsi(s.Opsi_B) ? s.Opsi_B : ""}</td></tr></tbody></table></div>`;
                     [{l:'A',t:"Kuantitas P lebih besar dari Q."},{l:'B',t:"Kuantitas P lebih kecil dari Q."},{l:'C',t:"Kuantitas P sama dengan Q."},{l:'D',t:"Informasi tidak cukup untuk memutuskan."}].forEach(c => optHTML += `<label class="flex items-center p-3 md:p-4 rounded-xl border border-slate-100 hover:border-brand-pink hover:bg-pink-50/30 cursor-pointer transition-all mb-2 md:mb-3"><input type="radio" name="q${no}" value="${c.l}" onchange="saveSingleAns(${no}, '${c.l}')" class="w-4 h-4 md:w-5 md:h-5 accent-brand-pink shrink-0"><span class="ml-3 md:ml-4 font-bold text-gray-400 shrink-0 text-sm">${c.l}.</span><span class="ml-2 flex-1 text-xs md:text-sm">${c.t}</span></label>`);
                 } else if (type === 5) {
-                    optHTML = `<div class="mt-4 md:mt-6 p-4 md:p-6 bg-slate-50 rounded-xl md:rounded-2xl border border-slate-200 space-y-2 md:space-y-3 mb-6 md:mb-8 shadow-inner"><div class="flex gap-3 md:gap-4"><span class="font-bold text-brand-pink shrink-0 text-sm md:text-base">(1)</span> <span class="text-xs md:text-sm">${s.Opsi_A}</span></div><div class="flex gap-3 md:gap-4"><span class="font-bold text-brand-pink shrink-0 text-sm md:text-base">(2)</span> <span class="text-xs md:text-sm">${s.Opsi_B}</span></div></div>`;
+                    optHTML = `<div class="mt-4 md:mt-6 p-4 md:p-6 bg-slate-50 rounded-xl md:rounded-2xl border border-slate-200 space-y-2 md:space-y-3 mb-6 md:mb-8 shadow-inner"><div class="flex gap-3 md:gap-4"><span class="font-bold text-brand-pink shrink-0 text-sm md:text-base">(1)</span> <span class="text-xs md:text-sm">${isValidOpsi(s.Opsi_A) ? s.Opsi_A : ""}</span></div><div class="flex gap-3 md:gap-4"><span class="font-bold text-brand-pink shrink-0 text-sm md:text-base">(2)</span> <span class="text-xs md:text-sm">${isValidOpsi(s.Opsi_B) ? s.Opsi_B : ""}</span></div></div>`;
                     [{l:'A',t:"(1) SAJA cukup, (2) SAJA tidak cukup."},{l:'B',t:"(2) SAJA cukup, (1) SAJA tidak cukup."},{l:'C',t:"DUA BERSAMA cukup, SATU SAJA tidak cukup."},{l:'D',t:"(1) SAJA cukup, (2) SAJA juga cukup."},{l:'E',t:"(1) dan (2) tidak cukup."}].forEach(c => optHTML += `<label class="flex items-center p-3 md:p-4 rounded-xl border border-slate-100 hover:border-brand-pink hover:bg-pink-50/30 cursor-pointer transition-all mb-2 md:mb-3"><input type="radio" name="q${no}" value="${c.l}" onchange="saveSingleAns(${no}, '${c.l}')" class="w-4 h-4 md:w-5 md:h-5 accent-brand-pink shrink-0"><span class="ml-3 md:ml-4 font-bold text-gray-400 shrink-0 text-sm">${c.l}.</span><span class="ml-2 flex-1 text-xs md:text-sm">${c.t}</span></label>`);
                 } else {
                     ["A","B","C","D","E"].forEach(l => {
-                        if (s[`Opsi_${l}`] && s[`Opsi_${l}`] !== "-") optHTML += `<label class="flex items-center p-3 md:p-4 rounded-xl border border-slate-100 hover:border-brand-pink hover:bg-pink-50/30 cursor-pointer transition-all mb-2 md:mb-3"><input type="${type===2?'checkbox':'radio'}" name="q${no}" value="${l}" onchange="${type===2?`saveMultiAns(${no})`:`saveSingleAns(${no}, '${l}')`}" class="w-4 h-4 md:w-5 md:h-5 accent-brand-pink shrink-0"><span class="ml-3 md:ml-4 font-bold text-gray-400 shrink-0 text-sm">${l}.</span><span class="ml-2 flex-1 text-xs md:text-sm">${s[`Opsi_${l}`]}</span></label>`;
+                        const opsiVal = s[`Opsi_${l}`];
+                        if (isValidOpsi(opsiVal)) {
+                            optHTML += `<label class="flex items-center p-3 md:p-4 rounded-xl border border-slate-100 hover:border-brand-pink hover:bg-pink-50/30 cursor-pointer transition-all mb-2 md:mb-3"><input type="${type===2?'checkbox':'radio'}" name="q${no}" value="${l}" onchange="${type===2?`saveMultiAns(${no})`:`saveSingleAns(${no}, '${l}')`}" class="w-4 h-4 md:w-5 md:h-5 accent-brand-pink shrink-0"><span class="ml-3 md:ml-4 font-bold text-gray-400 shrink-0 text-sm">${l}.</span><span class="ml-2 flex-1 text-xs md:text-sm">${String(opsiVal)}</span></label>`;
+                        }
                     });
                 }
 
@@ -1119,30 +1127,34 @@
                 if (isCorrect) correct++;
 
                 /* Persiapan teks soal dan stimulus untuk ditampilkan di pembahasan */
-                let stim = s.Stimulus ? String(s.Stimulus) : "";
+                let stim = isValidOpsi(s.Stimulus) ? String(s.Stimulus) : "";
                 stim = stim.includes('[GAMBAR:') ? parseInlineImages(stim) : (stim.trim().startsWith('http') ? `<img src='${stim.trim()}' class='max-w-md w-full mx-auto my-3 rounded-xl border border-slate-200'>` : stim);
-                let soalTeks = s.Pertanyaan ? parseInlineImages(s.Pertanyaan) : "Pernyataan";
+                let soalTeks = isValidOpsi(s.Pertanyaan) ? parseInlineImages(s.Pertanyaan) : "Pernyataan";
 
                 /* Opsi untuk di Review */
                 let optHTMLReview = "";
                 if (type === 3) {
-                    const stmts = [s.Opsi_A, s.Opsi_B, s.Opsi_C].filter(x => x && x !== "-");
-                    optHTMLReview = `<div class="mt-4 overflow-x-auto rounded-xl border border-slate-200"><table class="w-full text-xs md:text-sm text-left"><thead class="bg-slate-100 font-bold text-[10px] uppercase text-slate-600"><tr><th class="p-3">Pernyataan Analisis</th><th class="p-3 text-center w-20">${s.Opsi_D||"Benar"}</th><th class="p-3 text-center w-20">${s.Opsi_E||"Salah"}</th></tr></thead><tbody class="divide-y divide-slate-100">` + stmts.map((st, i) => `<tr><td class="p-3 border-r bg-slate-50/30">${st}</td><td class="p-3 text-center text-slate-300 border-r"><i class="far fa-circle"></i></td><td class="p-3 text-center text-slate-300"><i class="far fa-circle"></i></td></tr>`).join("") + `</tbody></table></div>`;
+                    const stmts = [s.Opsi_A, s.Opsi_B, s.Opsi_C].filter(isValidOpsi);
+                    const labelBenar = isValidOpsi(s.Opsi_D) ? s.Opsi_D : "Benar";
+                    const labelSalah = isValidOpsi(s.Opsi_E) ? s.Opsi_E : "Salah";
+                    
+                    optHTMLReview = `<div class="mt-4 overflow-x-auto rounded-xl border border-slate-200"><table class="w-full text-xs md:text-sm text-left"><thead class="bg-slate-100 font-bold text-[10px] uppercase text-slate-600"><tr><th class="p-3">Pernyataan Analisis</th><th class="p-3 text-center w-20">${labelBenar}</th><th class="p-3 text-center w-20">${labelSalah}</th></tr></thead><tbody class="divide-y divide-slate-100">` + stmts.map((st, i) => `<tr><td class="p-3 border-r bg-slate-50/30">${st}</td><td class="p-3 text-center text-slate-300 border-r"><i class="far fa-circle"></i></td><td class="p-3 text-center text-slate-300"><i class="far fa-circle"></i></td></tr>`).join("") + `</tbody></table></div>`;
                 } else if (type === 4) {
-                    optHTMLReview = `<div class="mt-4 overflow-hidden rounded-xl border border-slate-200 max-w-sm"><table class="w-full text-center table-fixed"><thead class="bg-slate-100 font-bold uppercase text-[10px] text-slate-600"><tr><th class="p-2 border-r border-slate-200">Kuantitas P</th><th class="p-2">Kuantitas Q</th></tr></thead><tbody><tr class="divide-x divide-slate-200"><td class="p-3 bg-white font-bold text-brand-pink">${s.Opsi_A}</td><td class="p-3 bg-white font-bold text-brand-pink">${s.Opsi_B}</td></tr></tbody></table></div>`;
+                    optHTMLReview = `<div class="mt-4 overflow-hidden rounded-xl border border-slate-200 max-w-sm"><table class="w-full text-center table-fixed"><thead class="bg-slate-100 font-bold uppercase text-[10px] text-slate-600"><tr><th class="p-2 border-r border-slate-200">Kuantitas P</th><th class="p-2">Kuantitas Q</th></tr></thead><tbody><tr class="divide-x divide-slate-200"><td class="p-3 bg-white font-bold text-brand-pink">${isValidOpsi(s.Opsi_A) ? s.Opsi_A : ""}</td><td class="p-3 bg-white font-bold text-brand-pink">${isValidOpsi(s.Opsi_B) ? s.Opsi_B : ""}</td></tr></tbody></table></div>`;
                     optHTMLReview += `<div class="mt-3 space-y-1 text-xs md:text-sm text-slate-600">`;
                     [{l:'A',t:"Kuantitas P lebih besar dari Q."},{l:'B',t:"Kuantitas P lebih kecil dari Q."},{l:'C',t:"Kuantitas P sama dengan Q."},{l:'D',t:"Informasi tidak cukup untuk memutuskan."}].forEach(c => optHTMLReview += `<div class="flex gap-2"><span class="font-bold text-slate-400">${c.l}.</span><span>${c.t}</span></div>`);
                     optHTMLReview += `</div>`;
                 } else if (type === 5) {
-                    optHTMLReview = `<div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs md:text-sm"><div class="flex gap-3"><span class="font-bold text-brand-pink">(1)</span> <span>${s.Opsi_A}</span></div><div class="flex gap-3"><span class="font-bold text-brand-pink">(2)</span> <span>${s.Opsi_B}</span></div></div>`;
+                    optHTMLReview = `<div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs md:text-sm"><div class="flex gap-3"><span class="font-bold text-brand-pink">(1)</span> <span>${isValidOpsi(s.Opsi_A) ? s.Opsi_A : ""}</span></div><div class="flex gap-3"><span class="font-bold text-brand-pink">(2)</span> <span>${isValidOpsi(s.Opsi_B) ? s.Opsi_B : ""}</span></div></div>`;
                     optHTMLReview += `<div class="mt-3 space-y-1 text-xs md:text-sm text-slate-600">`;
                     [{l:'A',t:"(1) SAJA cukup, (2) SAJA tidak cukup."},{l:'B',t:"(2) SAJA cukup, (1) SAJA tidak cukup."},{l:'C',t:"DUA BERSAMA cukup, SATU SAJA tidak cukup."},{l:'D',t:"(1) SAJA cukup, (2) SAJA juga cukup."},{l:'E',t:"(1) dan (2) tidak cukup."}].forEach(c => optHTMLReview += `<div class="flex gap-2"><span class="font-bold text-slate-400">${c.l}.</span><span>${c.t}</span></div>`);
                     optHTMLReview += `</div>`;
                 } else {
                     optHTMLReview = `<div class="mt-4 space-y-2">`;
                     ["A","B","C","D","E"].forEach(l => {
-                        if (s[`Opsi_${l}`] && s[`Opsi_${l}`] !== "-") {
-                            optHTMLReview += `<div class="flex items-start gap-3 text-xs md:text-sm p-2 rounded-lg border border-transparent hover:bg-slate-50"><span class="font-bold text-slate-400 mt-0.5">${l}.</span><span class="flex-1 text-slate-700">${s[`Opsi_${l}`]}</span></div>`;
+                        const opsiVal = s[`Opsi_${l}`];
+                        if (isValidOpsi(opsiVal)) {
+                            optHTMLReview += `<div class="flex items-start gap-3 text-xs md:text-sm p-2 rounded-lg border border-transparent hover:bg-slate-50"><span class="font-bold text-slate-400 mt-0.5">${l}.</span><span class="flex-1 text-slate-700">${String(opsiVal)}</span></div>`;
                         }
                     });
                     optHTMLReview += `</div>`;
@@ -1173,7 +1185,7 @@
 
                     <div class="p-3 md:p-4 bg-slate-50 text-[11px] md:text-xs rounded-xl border border-slate-200 overflow-x-auto">
                         <b class="text-brand-pink block mb-2"><i class="fas fa-lightbulb mr-1 text-brand-yellow"></i> Pembahasan:</b> 
-                        <div class="text-slate-600 leading-relaxed">${parseInlineImages(s.Pembahasan||"Belum tersedia")}</div>
+                        <div class="text-slate-600 leading-relaxed">${isValidOpsi(s.Pembahasan) ? parseInlineImages(s.Pembahasan) : "Belum tersedia"}</div>
                     </div>
                 </div>`;
             });
