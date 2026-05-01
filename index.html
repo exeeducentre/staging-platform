@@ -1179,6 +1179,38 @@
                 else analytics[topikStr][subtopikStr].s++;
 
                 // ----------------------------------------------------
+                // REKONSTRUKSI SOAL & OPSI UNTUK REVIEW
+                // ----------------------------------------------------
+                let stim = isValidOpsi(s.Stimulus) ? String(s.Stimulus) : "";
+                stim = stim.includes('[GAMBAR:') ? parseInlineImages(stim) : (stim.trim().startsWith('http') ? `<img src='${stim.trim()}' class='max-w-md w-full mx-auto my-3 rounded-xl border border-slate-200'>` : stim);
+                let soalTeks = isValidOpsi(s.Pertanyaan) ? parseInlineImages(s.Pertanyaan) : "Pernyataan";
+
+                let optHTMLReview = "";
+                if (type === 3) {
+                    const stmts = [s.Opsi_A, s.Opsi_B, s.Opsi_C].filter(isValidOpsi);
+                    const labelBenar = isValidOpsi(s.Opsi_D) ? s.Opsi_D : "Benar";
+                    const labelSalah = isValidOpsi(s.Opsi_E) ? s.Opsi_E : "Salah";
+                    optHTMLReview = `<div class="mt-4 overflow-x-auto rounded-xl border border-slate-200"><table class="w-full text-xs md:text-sm text-left"><thead class="bg-slate-100 font-bold text-[10px] uppercase text-slate-600"><tr><th class="p-3">Pernyataan Analisis</th><th class="p-3 text-center w-20">${labelBenar}</th><th class="p-3 text-center w-20">${labelSalah}</th></tr></thead><tbody class="divide-y divide-slate-100">` + stmts.map((st, i) => `<tr><td class="p-3 border-r bg-slate-50/30">${st}</td><td class="p-3 text-center text-slate-300 border-r"><i class="far fa-circle"></i></td><td class="p-3 text-center text-slate-300"><i class="far fa-circle"></i></td></tr>`).join("") + `</tbody></table></div>`;
+                } else if (type === 4) {
+                    optHTMLReview = `<div class="mt-4 overflow-hidden rounded-xl border border-slate-200 max-w-sm"><table class="w-full text-center table-fixed"><thead class="bg-slate-100 font-bold uppercase text-[10px] text-slate-600"><tr><th class="p-2 border-r border-slate-200">Kuantitas P</th><th class="p-2">Kuantitas Q</th></tr></thead><tbody><tr class="divide-x divide-slate-200"><td class="p-3 bg-white font-bold text-brand-pink">${isValidOpsi(s.Opsi_A) ? s.Opsi_A : ""}</td><td class="p-3 bg-white font-bold text-brand-pink">${isValidOpsi(s.Opsi_B) ? s.Opsi_B : ""}</td></tr></tbody></table></div><div class="mt-3 space-y-1 text-xs md:text-sm text-slate-600">`;
+                    [{l:'A',t:"Kuantitas P lebih besar dari Q."},{l:'B',t:"Kuantitas P lebih kecil dari Q."},{l:'C',t:"Kuantitas P sama dengan Q."},{l:'D',t:"Informasi tidak cukup untuk memutuskan."}].forEach(c => optHTMLReview += `<div class="flex gap-2"><span class="font-bold text-slate-400">${c.l}.</span><span>${c.t}</span></div>`);
+                    optHTMLReview += `</div>`;
+                } else if (type === 5) {
+                    optHTMLReview = `<div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs md:text-sm"><div class="flex gap-3"><span class="font-bold text-brand-pink">(1)</span> <span>${isValidOpsi(s.Opsi_A) ? s.Opsi_A : ""}</span></div><div class="flex gap-3"><span class="font-bold text-brand-pink">(2)</span> <span>${isValidOpsi(s.Opsi_B) ? s.Opsi_B : ""}</span></div></div><div class="mt-3 space-y-1 text-xs md:text-sm text-slate-600">`;
+                    [{l:'A',t:"(1) SAJA cukup, (2) SAJA tidak cukup."},{l:'B',t:"(2) SAJA cukup, (1) SAJA tidak cukup."},{l:'C',t:"DUA BERSAMA cukup, SATU SAJA tidak cukup."},{l:'D',t:"(1) SAJA cukup, (2) SAJA juga cukup."},{l:'E',t:"(1) dan (2) tidak cukup."}].forEach(c => optHTMLReview += `<div class="flex gap-2"><span class="font-bold text-slate-400">${c.l}.</span><span>${c.t}</span></div>`);
+                    optHTMLReview += `</div>`;
+                } else {
+                    optHTMLReview = `<div class="mt-4 space-y-2">`;
+                    ["A","B","C","D","E"].forEach(l => {
+                        const opsiVal = s[`Opsi_${l}`];
+                        if (isValidOpsi(opsiVal)) {
+                            optHTMLReview += `<div class="flex items-start gap-3 text-xs md:text-sm p-2 rounded-lg border border-transparent hover:bg-slate-50"><span class="font-bold text-slate-400 mt-0.5">${l}.</span><span class="flex-1 text-slate-700">${String(opsiVal)}</span></div>`;
+                        }
+                    });
+                    optHTMLReview += `</div>`;
+                }
+
+                // ----------------------------------------------------
                 // RENDER DAFTAR PEMBAHASAN (Sembunyi saat Print)
                 // ----------------------------------------------------
                 let jawabanUserRapi = JSON.stringify(userAnswers[no]||"Kosong").replace(/"/g, '');
@@ -1188,12 +1220,19 @@
                         <span class="font-bold text-sm">No. ${no} <span class="ml-2 text-[10px] text-slate-400 font-normal border border-slate-200 px-2 py-0.5 rounded-full">${subtopikStr}</span></span>
                         <span class="font-bold text-xs px-2 py-1 rounded-md ${isCorrect?'text-green-600 bg-green-100':'text-red-600 bg-red-100'}">${isCorrect?'Benar':'Salah'}</span>
                     </div>
-                    <div class="mb-4 text-xs md:text-sm text-slate-700 font-bold">${isValidOpsi(s.Pertanyaan) ? parseInlineImages(s.Pertanyaan) : "Soal"}</div>
+                    
+                    <!-- BAGIAN SOAL & OPSI -->
+                    <div class="mb-4 p-4 bg-white rounded-xl border border-slate-200 text-xs md:text-sm text-slate-700 shadow-sm overflow-x-auto">
+                        ${stim ? `<div class="mb-3 text-slate-600 leading-relaxed">${stim}</div>` : ''}
+                        <div class="font-bold text-brand-dark leading-relaxed">${soalTeks}</div>
+                        ${optHTMLReview}
+                    </div>
+
                     <div class="text-xs md:text-sm space-y-1 mb-4 px-1">
-                        <p>Jawabanmu: <b>${jawabanUserRapi}</b></p>
+                        <p>Jawabanmu: <b class="text-slate-800">${jawabanUserRapi}</b></p>
                         <p>Kunci: <b class="text-brand-pink">${s.Kunci}</b></p>
                     </div>
-                    <div class="p-3 bg-slate-50 text-[11px] md:text-xs rounded-xl border border-slate-200"><b class="text-brand-pink block mb-1">Pembahasan:</b> ${isValidOpsi(s.Pembahasan) ? parseInlineImages(s.Pembahasan) : "-"}</div>
+                    <div class="p-3 bg-slate-50 text-[11px] md:text-xs rounded-xl border border-slate-200"><b class="text-brand-pink block mb-1"><i class="fas fa-lightbulb mr-1 text-brand-yellow"></i> Pembahasan:</b> ${isValidOpsi(s.Pembahasan) ? parseInlineImages(s.Pembahasan) : "-"}</div>
                 </div>`;
             });
 
