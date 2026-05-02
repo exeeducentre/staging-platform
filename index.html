@@ -131,24 +131,72 @@
                 <div class="absolute top-0 left-0 w-full h-2 bg-gradient-brand"></div>
                 <img class="h-14 w-auto mx-auto mb-6" src="https://images2.imgbox.com/ad/c5/3XFVIZZN_o.png" alt="Logo EXE">
                 <h2 class="text-xl md:text-2xl font-bold text-brand-dark mb-2">Exe Students Centre</h2>
-                <p class="text-gray-500 text-sm mb-8">Masuk dengan Email terdaftar.</p>
                 
-                <div id="login-input-section" class="space-y-4 text-left">
-                    <p id="login-feedback" class="text-sm text-center font-bold mb-4 hidden"></p>
+                <!-- LOGIN FORM REGULER -->
+                <div id="login-form-container">
+                    <p class="text-gray-500 text-sm mb-8">Masuk dengan Email terdaftar.</p>
                     
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Email</label>
-                        <input type="email" id="input-email" placeholder="Contoh: siswa@sekolah.com" class="w-full px-5 py-3 md:py-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-pink focus:bg-white transition-all font-medium text-sm md:text-base">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1 mt-4">Password</label>
-                        <input type="password" id="input-password" placeholder="Masukkan Password" class="w-full px-5 py-3 md:py-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-pink focus:bg-white transition-all font-medium text-sm md:text-base">
-                        <div class="text-right mt-2">
-                            <button id="btn-forgot-password" onclick="lupaPassword()" class="text-xs text-brand-pink hover:underline font-semibold">Lupa Password?</button>
+                    <div id="login-input-section" class="space-y-4 text-left">
+                        <p id="login-feedback" class="text-sm text-center font-bold mb-4 hidden"></p>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Email</label>
+                            <input type="email" id="input-email" placeholder="Contoh: siswa@sekolah.com" class="w-full px-5 py-3 md:py-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-pink focus:bg-white transition-all font-medium text-sm md:text-base">
                         </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1 mt-4">Password</label>
+                            <input type="password" id="input-password" placeholder="Masukkan Password" class="w-full px-5 py-3 md:py-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-pink focus:bg-white transition-all font-medium text-sm md:text-base">
+                            <div class="text-right mt-2">
+                                <button id="btn-forgot-password" onclick="lupaPassword()" class="text-xs text-brand-pink hover:underline font-semibold">Lupa Password?</button>
+                            </div>
+                        </div>
+                        <button id="btn-proses-login" onclick="prosesLogin()" class="w-full bg-gradient-brand text-white font-bold py-3.5 md:py-4 rounded-xl hover:shadow-lg hover:-translate-y-1 transition-all mt-6 text-base md:text-lg">Masuk Dashboard</button>
                     </div>
-                    <button id="btn-proses-login" onclick="prosesLogin()" class="w-full bg-gradient-brand text-white font-bold py-3.5 md:py-4 rounded-xl hover:shadow-lg hover:-translate-y-1 transition-all mt-6 text-base md:text-lg">Masuk Dashboard</button>
+
+                    <!-- TOMBOL MODE TAMU -->
+                    <div class="mt-8 pt-6 border-t border-slate-100">
+                        <p class="text-xs text-slate-500 font-medium mb-3">Belum punya akun? Cobain fitur kami!</p>
+                        <button onclick="toggleGuestForm(true)" class="w-full bg-slate-100 text-brand-dark font-bold py-3 rounded-xl hover:bg-slate-200 transition-all text-sm">Masuk sebagai Tamu (Demo Gratis)</button>
+                    </div>
                 </div>
+
+                <!-- GUEST FORM (LEAD GENERATION) -->
+                <div id="guest-form-container" class="hidden">
+                    <p class="text-gray-500 text-sm mb-6 px-2">Isi form di bawah ini untuk mencoba simulasi ujian & kelas interaktif.</p>
+                    
+                    <div class="space-y-4 text-left">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Nama Lengkap</label>
+                            <input type="text" id="guest-nama" placeholder="Contoh: Budi Santoso" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-orange text-sm transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Email</label>
+                            <input type="email" id="guest-email" placeholder="Contoh: budi@gmail.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-orange text-sm transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">No. WhatsApp</label>
+                            <input type="number" id="guest-wa" placeholder="Contoh: 081234567890" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-orange text-sm transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Asal Sekolah</label>
+                            <input type="text" id="guest-sekolah" placeholder="Contoh: SMAN 1 Jakarta" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-orange text-sm transition-all">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Kelas Asal</label>
+                                <input type="text" id="guest-kelas" placeholder="Contoh: 12 IPA" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-orange text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Kota</label>
+                                <input type="text" id="guest-kota" placeholder="Contoh: Jakarta" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-2 focus:ring-brand-orange text-sm transition-all">
+                            </div>
+                        </div>
+
+                        <button id="btn-proses-guest" onclick="prosesLoginGuest()" class="w-full bg-brand-orange text-white font-bold py-3.5 rounded-xl hover:bg-orange-600 transition-all mt-4 text-base shadow-lg">Mulai Demo Gratis</button>
+                        <button onclick="toggleGuestForm(false)" class="w-full text-slate-500 text-sm font-bold mt-2 hover:text-brand-dark py-2">Kembali ke Login</button>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -369,7 +417,7 @@
 
     <script>
         /* --- KONFIGURASI API --- */
-        const API_URL = "https://script.google.com/macros/s/AKfycbzOFMW35eZtt1ToZA12r6h7NwVQYtjoNXz-1EOXd5NT4E7s53AS6P7VbhuH3LQuuX6S/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxau4PSaYUAOaJWRZhdCUO5ZnqMm9ZozffZncAAunXvRZ6fkPr0W_bLg6Y6e80tD9qy/exec";
         const $ = id => document.getElementById(id);
         
         /* HELPER UNTUK MENGATASI BUG 0 FALSY */
@@ -633,8 +681,19 @@
         }
 
         /* ============================================== */
-        /* AUTHENTICATION FULL                            */
+        /* AUTHENTICATION FULL (REGULER & TAMU)           */
         /* ============================================== */
+
+        function toggleGuestForm(showGuest) {
+            if(showGuest) {
+                $('login-form-container').classList.add('hidden');
+                $('guest-form-container').classList.remove('hidden');
+            } else {
+                $('guest-form-container').classList.add('hidden');
+                $('login-form-container').classList.remove('hidden');
+            }
+        }
+
         async function prosesLogin() {
             const email = $('input-email').value.trim();
             const password = $('input-password').value;
@@ -680,7 +739,64 @@
             }
         }
 
+        // LOGIKA PENDAFTARAN & LOGIN MODE TAMU
+        async function prosesLoginGuest() {
+            const nama = $('guest-nama').value.trim();
+            const email = $('guest-email').value.trim();
+            const telepon = $('guest-wa').value.trim();
+            const sekolah = $('guest-sekolah').value.trim();
+            const kelas = $('guest-kelas').value.trim();
+            const kota = $('guest-kota').value.trim();
+
+            if(!nama || !email || !telepon || !sekolah || !kelas || !kota) {
+                showModal("Perhatian", "Mohon lengkapi seluruh form data diri untuk melanjutkan.", "<i class='fas fa-exclamation-triangle text-brand-orange'></i>");
+                return;
+            }
+
+            const btn = $('btn-proses-guest');
+            const oldText = btn.innerHTML;
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin mr-2'></i> Mendaftarkan...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ 
+                        action: "register_guest", 
+                        nama: nama, // Nama bersih tanpa awalan
+                        email: email, 
+                        telepon: telepon,
+                        sekolah: sekolah,
+                        kelas: kelas, // Kelas asli siswa
+                        kota: kota
+                    })
+                });
+                const result = await response.json();
+
+                if(result.status === "success") {
+                    // Buat Mock Session untuk Tamu
+                    currentUser = {
+                        Nama: nama, // Nama bersih yang akan dipakai di Dashboard
+                        Email: email,
+                        Kelas: "GUEST", // Akses terbuka untuk target GUEST di sistem
+                        Paket: "GUEST", // Akses terbuka untuk kelas trial GUEST
+                        Asal_Sekolah: sekolah
+                    };
+                    localStorage.setItem('exe_current_user', JSON.stringify(currentUser));
+                    setupDashboard();
+                } else {
+                    showModal("Gagal", result.message || "Gagal masuk sebagai tamu.", "<i class='fas fa-times text-red-500'></i>");
+                }
+            } catch(err) {
+                showModal("Error", "Koneksi gagal. Cek jaringan Anda.", "<i class='fas fa-wifi text-red-500'></i>");
+            } finally {
+                btn.innerHTML = oldText;
+                btn.disabled = false;
+            }
+        }
+
         function setupDashboard() {
+            // Karena tidak ada lagi "Tamu: ", split() ini akan langsung mengambil nama pertama yang diinputkan pengguna.
             const namaDepan = currentUser.Nama.split(' ')[0];
             $('display-nama').innerText = namaDepan; 
             $('dash-nama').innerText = namaDepan;
@@ -694,6 +810,7 @@
             $('main-nav').classList.add('hidden');
             $('input-email').value = ""; 
             $('input-password').value = "";
+            toggleGuestForm(false); // Kembalikan ke form login reguler
             navigateTo('auth-view');
         }
 
@@ -701,8 +818,8 @@
         /* JADWAL KELAS ENGINE                            */
         /* ============================================== */
         async function initJadwal() {
-            /* Blokir akses untuk EXE-cutive Silver */
-            if (currentUser.Paket && String(currentUser.Paket).toUpperCase().includes("SILVER")) {
+            /* Blokir akses untuk EXE-cutive Silver (Tamu tetap bisa lolos jika paket tamu diset ke GUEST) */
+            if (currentUser.Paket && String(currentUser.Paket).toUpperCase() === "EXE-CUTIVE SILVER") {
                 showModal("Akses Terbatas", "Maaf, akun Anda terdaftar pada paket EXE-cutive Silver yang tidak memiliki akses ke fitur Jadwal Kelas Interaktif.\n\nFokuslah pada latihan mandiri di Bank Soal dan Try Out!", "<i class='fas fa-lock text-brand-pink'></i>");
                 return;
             }
@@ -841,7 +958,7 @@
         function renderMenu1_TO() {
             const kats = Object.keys(currentMenuTree);
             if(kats.length === 0) { 
-                showModal("Oops!", "Belum ada Try Out untuk kelas Anda saat ini."); 
+                showModal("Oops!", "Belum ada Try Out untuk kelas Anda saat ini.", "<i class='fas fa-folder-open text-brand-pink'></i>"); 
                 return; 
             }
 
@@ -886,7 +1003,7 @@
             try {
                 let rRes = await fetch(API_URL, {
                     method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "check_history", type: "TO", nama: currentUser.Nama, kategori: state.kat, mapel: state.mapel, to_ke: state.to_ke })
+                    body: JSON.stringify({ action: "check_history", type: "TO", nama: currentUser.Nama, kelas: currentUser.Kelas, kategori: state.kat, mapel: state.mapel, to_ke: state.to_ke })
                 });
                 let riwayat = await rRes.json();
 
@@ -941,7 +1058,7 @@
         function renderMenu1_BS() {
             const mapels = Object.keys(currentMenuTree);
             if(mapels.length === 0) { 
-                showModal("Oops!", "Belum ada materi Bank Soal untuk kelas Anda."); 
+                showModal("Oops!", "Belum ada materi Bank Soal untuk kelas Anda.", "<i class='fas fa-folder-open text-brand-orange'></i>"); 
                 return; 
             }
 
