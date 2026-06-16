@@ -1263,7 +1263,7 @@
             activeQuestions.forEach((s, idx) => {
                 const no = s.No_Soal || (idx + 1), type = Number(s.Tipe_Soal) || 1;
                 let isCorrect = false;
-                const kunciClean = String(s.Kunci).replace(/\s+/g, '').toUpperCase();
+                const kunciClean = String(s.Kunci).replace(/[\s,]+/g, '').toUpperCase();
 
                 // Pengecekan Kebenaran Jawaban User
                 if (type === 3) {
