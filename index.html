@@ -1270,7 +1270,7 @@
                     const uAnsStr = Object.values(userAnswers[no]||{}).join('');
                     isCorrect = (uAnsStr === kunciClean);
                 } else {
-                    const uAns = String(userAnswers[no] || "").replace(/\s+/g, '').toUpperCase();
+                    const uAns = String(userAnswers[no] || "").replace(/[\s,]+/g, '').toUpperCase();
                     isCorrect = (uAns === kunciClean);
                 }
                 if (isCorrect) correctCount++;
